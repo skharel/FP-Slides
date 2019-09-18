@@ -19,13 +19,13 @@ function pickAttributes(attrs) {
   };
 }
 
-function toJson(d) {
-  return JSON.parse(d);
+function isString(d) {
+  return typeof d === 'string';
 }
 
 pipe(
-  ifElse((d) => typeof d === 'string', toJson, identity),
-  tap(log('Input')),
+  ifElse(isString, JSON.parse, identity),
+  tap(log, 'Input'),
   pickAttributes(['key1', 'key2']),
-  tap(log('Output'))
+  tap(log, 'Output')
 )(getData());
